@@ -1,0 +1,13 @@
+version: '3'
+services:
+  product-service:
+    build: ./node
+    volumes:
+      - ./node:/usr/src/app
+    ports:
+      - 26656:26656
+	- 26657:26657
+	- 9091:9091
+	- 9090:9090
+	- 6060:6060
+	- 1317:1317
