@@ -1,0 +1,58 @@
+
+#commit
+https://www.tecmint.com/install-run-and-delete-applications-inside-docker-containers/
+
+ docker run -it ubuntu bash
+ apt install nginx
+ exit
+
+docker ps -l
+docker commit 5976e4ae287c ubuntu-nginx
+docker images
+
+Ctrl-p + Ctrl-q
+
+# docker run -it ubuntu bash
+# apt-get install nginx
+
+
+# docker ps
+# docker attach 3378689f2069
+# exit
+####
+
+source $HOME/.bash_profile
+strided keys add wallet
+strided q bank balances YOUR_WALLET_ADDRESS
+
+
+strided tx staking create-validator \
+--moniker="$STRIDE_NODENAME" \
+--amount=1000000ustrd \
+--fees 300ustrd \
+--pubkey=$(strided tendermint show-validator) \
+--chain-id=STRIDE-TESTNET-2 \
+--commission-max-change-rate=0.01 \
+--commission-max-rate=0.20 \
+--commission-rate=0.10 \
+--min-self-delegation=1 \
+--from=wallet \
+--yes 
+
+
+
+
+journalctl -u strided -f -o cat
+systemctl restart strided
+curl localhost:26657/status
+curl -s localhost:26657/status | jq .result.sync_info.catching_up
+strided keys show wallet --bech val -a
+strided tx staking delegate YOUR_VALOPER_ADDRESS 10000000ustrd --from wallet --chain-id STRIDE-TESTNET-2 --fees 5000ustrd
+strided query staking validators --limit 2000 -o json | jq -r '.validators[] | select(.status=="BOND_STATUS_BONDED") | [.operator_address, .status, (.tokens|tonumber / pow(10; 6)), .description.moniker] | @csv' | column -t -s"," | sort -k3 -n -r
+
+
+
+
+systemctl stop strided
+systemctl disable strided
+rm -rf ~/stride ~/.stride /etc/systemd/system/strided.service
